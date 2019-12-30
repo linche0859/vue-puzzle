@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css');
+      * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-family: 'Noto Sans TC', sans-serif;
+      }
+      .wrap {
+        width: 100%;
+        max-width: 1200px;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+      .wrap h1 {
+        margin: 30px 0;
+      }
+      .wrap #app {
+        width: 100%;
+        text-align: center;
+      }
+      .wrap h2 {
+        margin-bottom: 30px;
+      }
+      .wrap .puzzle {
+        /* width: 300px; */
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 auto;
+        margin-bottom: 20px;
+      }
+      .wrap .puzzle .item {
+        width: 96px;
+        height: 96px;
+        border: 2px solid #000;
+        border-radius: 10px;
+        box-sizing: border-box;
+        margin: 2px;
+        font-size: 1.7rem;
+        line-height: 96px;
+        background-color: #42b883;
+        color: #000;
+        text-decoration: none;
+      }
+      .wrap .puzzle .space {
+        background-color: #fff;
+        cursor: initial;
+      }
+      .wrap .puzzle .correct {
+        background-color: #fa0;
+      }
+      .wrap .btn-group button {
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Vue Puzzle</h1>
+      <div id="app">
+        <h2><template v-if="win"> You win at </template>{{move}} steps</h2>
+        <div
+          class="puzzle"
+          v-if="newGrids.length"
+          :style="{width: `${col * 100}px`, height: `${col * 100}px`}"
+        >
+          <template v-for="(grid,index) in newGrids">
+            <grid-component
+              :grid="grid"
+              :total="total"
+              :index="index"
+              @move="moveHandler(grid)"
+            ></grid-component>
+          </template>
+        </div>
+        <div class="btn-group">
+          <button @click="col = 3">3X3</button>
+          <button @click="col = 4">4X4</button>
+          <button @click="init">Restart</button>
+        </div>
+      </div>
+      <script type="text/x-template" id="gridTemplate">
+        <a href="javascript:;" :class="['item', {space: grid.label === total}, {correct}]" @click="clickHandler">{{grid.label === total ? '' : grid.label}}</a>
+      </script>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>
